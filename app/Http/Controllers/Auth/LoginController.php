@@ -8,16 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('customer')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect('/redirect');
         }
 
         return back()->withErrors([
@@ -27,14 +32,15 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('customer')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        
+        return redirect('/')->with('message', 'Logged out successfully');
     }
 
-    public function showLoginForm()
+    protected function guard()
     {
-        return view('auth.login');
+        return Auth::guard('customer');
     }
 }

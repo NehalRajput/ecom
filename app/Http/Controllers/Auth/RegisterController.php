@@ -4,11 +4,21 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
+    public function showRegistrationForm()
+    {
+        if (Auth::guard('customer')->check()) {
+            return redirect('/');
+        }
+        return view('auth.register');
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -21,15 +31,17 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'usertype' => '0',  // Add this line for customer type
         ]);
 
-        auth()->login($user);
+        Customer::create([
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'usertype' => '0'
+        ]);
 
-        return redirect()->intended('dashboard');
-    }
-
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
+        Auth::guard('customer')->login($user);
+        return redirect()->route('userpage');
     }
 }
