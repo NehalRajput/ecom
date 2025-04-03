@@ -1,4 +1,5 @@
 
+
 <?php
 
 use App\Http\Controllers\DashboardController;
@@ -43,8 +44,3 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
     });
 });
-
-
-
-
-
