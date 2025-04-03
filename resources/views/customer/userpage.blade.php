@@ -23,14 +23,15 @@
    </head>
    <body>
       <div class="hero_area">
+         <!-- Include only one header -->
          @include('customer.header')
          @include('customer.slider')
-        @include('customer.Why')
-       @include('customer.arrival')      
-       @include('customer.product')
-       @include('customer.subscribe')
-      @include('customer.client')
-      @include('customer.footer')  
+         @include('customer.Why')
+         @include('customer.arrival')      
+         @include('customer.product')
+         @include('customer.subscribe')
+         @include('customer.client')
+         @include('customer.footer')
    
       </div>
       <div class="cpy_">

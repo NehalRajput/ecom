@@ -10,9 +10,13 @@
 
       <div class="main-panel">
         <div class="content-wrapper">
-         
-
-      @include('admin.script')
+          <!-- Your dashboard content here -->
+        </div>
+        <!-- Close main-panel -->
+      </div>
+      <!-- Close container-scroller -->
     </div>
+
+    @include('admin.script')
   </body>
 </html>
