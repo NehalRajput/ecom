@@ -71,6 +71,22 @@
             </a>
         </li>
         
-      
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ route('admin.categories.create') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-plus-circle"></i>
+                </span>
+                <span class="menu-title">Add Category</span>
+            </a>
+        </li>
+
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ route('admin.categories.show') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-format-list-bulleted"></i>
+                </span>
+                <span class="menu-title">Show Categories</span>
+            </a>
+        </li>
        
 </nav>

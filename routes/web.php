@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\CategoryController; // Updated import
 
 // Public Routes
 Route::get('/', function () {
@@ -41,6 +42,14 @@ Route::group(['prefix' => 'admin'], function () {
  
     Route::group(['middleware' => 'admin.auth'], function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+        Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories');
+        Route::get('/categories/show', [CategoryController::class, 'show'])->name('admin.categories.show'); // Added show route
+        Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+        Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+        Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
     });
+    
+    Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 });
