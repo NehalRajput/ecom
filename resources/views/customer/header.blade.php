@@ -8,7 +8,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="/">Home</a>
                     </li>
@@ -17,6 +17,16 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button">
+                            Categories
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach($categories as $category)
+                                <a class="dropdown-item" href="#">{{ $category->name }}</a>
+                            @endforeach
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
