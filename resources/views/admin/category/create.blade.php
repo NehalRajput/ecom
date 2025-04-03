@@ -7,7 +7,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.categories') }}">Categories</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add Category</li>
+                <li class="breadcrumb-item active">Add Category</li>
             </ol>
         </nav>
     </div>
@@ -18,15 +18,17 @@
                     <form class="forms-sample" action="{{ route('admin.categories.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Category Name" value="{{ old('name') }}">
+                            <label style="color: #ffffff;">Name</label>
+                            <input type="text" class="form-control bg-dark text-white @error('name') is-invalid @enderror" 
+                                name="name" value="{{ old('name') }}" style="border: 1px solid #2c2e33;">
                             @error('name')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4">{{ old('description') }}</textarea>
+                            <label style="color: #ffffff;">Description</label>
+                            <textarea class="form-control bg-dark text-white @error('description') is-invalid @enderror" 
+                                name="description" rows="4" style="border: 1px solid #2c2e33;">{{ old('description') }}</textarea>
                             @error('description')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror

@@ -2,11 +2,11 @@
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">
-        <h3 class="page-title text-white">Categories List</h3>
+        <h3 class="page-title text-white">Products List</h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Categories</li>
+                <li class="breadcrumb-item active">Products</li>
             </ol>
         </nav>
     </div>
@@ -18,21 +18,25 @@
                         <table class="table table-dark">
                             <thead>
                                 <tr>
-                                    <th class="text-white"> # </th>
-                                    <th class="text-white"> Name </th>
-                                    <th class="text-white"> Description </th>
-                                    <th class="text-white"> Action </th>
+                                    <th class="text-white">Image</th>
+                                    <th class="text-white">Title</th>
+                                    <th class="text-white">Category</th>
+                                    <th class="text-white">Price</th>
+                                    <th class="text-white">Quantity</th>
+                                    <th class="text-white">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($categories as $category)
+                                @foreach($products as $product)
                                 <tr>
-                                    <td class="text-white">{{ $loop->iteration }}</td>
-                                    <td class="text-white">{{ $category->name }}</td>
-                                    <td class="text-white">{{ $category->description }}</td>
+                                    <td><img src="{{ asset('product_images/'.$product->image) }}" width="50"></td>
+                                    <td class="text-white">{{ $product->title }}</td>
+                                    <td class="text-white">{{ $product->category->name }}</td>
+                                    <td class="text-white">${{ number_format($product->price, 2) }}</td>
+                                    <td class="text-white">{{ $product->quantity }}</td>
                                     <td>
-                                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-info btn-sm">Edit</a>
-                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="d-inline">
+                                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>

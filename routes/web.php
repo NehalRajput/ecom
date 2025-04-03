@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController; // Updated import
+use App\Http\Controllers\Admin\ProductController; // Add this at the top with other use statements
+use App\Models\Product;
 
 // Public Routes
 Route::get('/', function () {
-    return view('customer.userpage');
+    $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
+    return view('customer.userpage', compact('products'));
 })->name('userpage');
 
 // Guest Routes (Only accessible when not logged in)
@@ -51,5 +54,22 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
     });
     
+    
+    // Product Routes
+    // Product routes with correct controller namespace
+    Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+
     Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+   
 });
+
+// Public Routes
+Route::get('/products', function () {
+    $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
+    return view('customer.product', compact('products'));
+})->name('products');

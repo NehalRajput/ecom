@@ -71,6 +71,7 @@
             </a>
         </li>
         
+        <!-- Category Links -->
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ route('admin.categories.create') }}">
                 <span class="menu-icon">
@@ -86,6 +87,25 @@
                     <i class="mdi mdi-format-list-bulleted"></i>
                 </span>
                 <span class="menu-title">Show Categories</span>
+            </a>
+        </li>
+
+        <!-- Product Links -->
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ route('admin.products.create') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-cart-plus"></i>
+                </span>
+                <span class="menu-title">Add Product</span>
+            </a>
+        </li>
+
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ route('admin.products') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-view-grid"></i>
+                </span>
+                <span class="menu-title">Show Products</span>
             </a>
         </li>
        
