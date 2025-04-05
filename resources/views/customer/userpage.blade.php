@@ -25,6 +25,7 @@
       <div class="hero_area">
          <!-- Include only one header -->
          @include('customer.header')
+         <!-- Include only one slider -->
          @include('customer.slider')
          @include('customer.Why')
          @include('customer.arrival')      

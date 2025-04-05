@@ -1,4 +1,4 @@
-<header class="header_section">
+ <header class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container">
             <a class="navbar-brand" href="/">
@@ -25,7 +25,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ url('/') }}">All Products</a>
                             @foreach($categories as $category)
-                                <a class="dropdown-item" href="{{ url('/?category=' . $category->id) }}">{{ $category->name }}</a>
+                                <a class="dropdown-item" href="{{ route('category.products', $category) }}">{{ $category->name }}</a>
                             @endforeach
                         </div>
                     </li>
@@ -48,4 +48,4 @@
             </div>
         </nav>
     </div>
-</header>
+</header> 

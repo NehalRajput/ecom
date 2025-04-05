@@ -12,39 +12,6 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Models\Product;
 use App\Models\Category;
 
-// Customer/Public Routes
-Route::get('/', function () {
-    $categories = Category::all();
-    $query = Product::with('category');
-    
-    if (request('category')) {
-        $query->where('category_id', request('category'));
-    }
-    
-    $products = $query->orderBy('created_at', 'DESC')->get();
-    return view('customer.userpage', compact('products', 'categories'));
-})->name('userpage');
-
-Route::get('/products', function () {
-    $products = Product::with('category')->orderBy('created_at', 'DESC')->get();
-    $categories = Category::all();
-    return view('customer.product', compact('products', 'categories'));
-})->name('products');
-
-// Add this route with your other routes
-Route::get('/product/{product}', function (App\Models\Product $product) {
-    $categories = App\Models\Category::all();
-    return view('customer.product-details', compact('product', 'categories'));
-})->name('product.details');
-
-Route::get('/category/{category}', function (App\Models\Category $category) {
-    $categories = App\Models\Category::all();
-    $products = App\Models\Product::where('category_id', $category->id)
-                      ->orderBy('created_at', 'DESC')
-                      ->get();
-    return view('customer.category-products', compact('products', 'categories', 'category'));
-})->name('category.products');
-
 // Customer Authentication Routes
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -98,3 +65,35 @@ Route::prefix('admin')->group(function () {
         Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
     });
 });
+
+// Add these routes at the top of your web.php file
+Route::get('/', function () {
+    $categories = Category::all();
+    $query = Product::with('category');
+    
+    if (request('category')) {
+        $query->where('category_id', request('category'));
+    }
+    
+    $products = $query->orderBy('created_at', 'DESC')->get();
+    return view('customer.userpage', compact('products', 'categories'));
+})->name('userpage');
+
+Route::get('/products', function () {
+    $categories = Category::all();
+    $products = Product::orderBy('created_at', 'DESC')->paginate(12);
+    return view('customer.products', compact('products', 'categories'));
+})->name('products');
+
+Route::get('/product/{product}', function (Product $product) {
+    $categories = Category::all();
+    return view('customer.product-details', compact('product', 'categories'));
+})->name('product.details');
+
+Route::get('/category/{category}', function (Category $category) {
+    $categories = Category::all();
+    $products = Product::where('category_id', $category->id)
+                      ->orderBy('created_at', 'DESC')
+                      ->paginate(12);
+    return view('customer.category-products', compact('products', 'categories', 'category'));
+})->name('category.products');
