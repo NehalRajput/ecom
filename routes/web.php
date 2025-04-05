@@ -67,33 +67,10 @@ Route::prefix('admin')->group(function () {
 });
 
 // Add these routes at the top of your web.php file
-Route::get('/', function () {
-    $categories = Category::all();
-    $query = Product::with('category');
-    
-    if (request('category')) {
-        $query->where('category_id', request('category'));
-    }
-    
-    $products = $query->orderBy('created_at', 'DESC')->get();
-    return view('customer.userpage', compact('products', 'categories'));
-})->name('userpage');
+Route::get('/', fn() => view('customer.userpage', ['products' => Product::with('category')->latest()->get(), 'categories' => Category::all()]))->name('userpage');
 
-Route::get('/products', function () {
-    $categories = Category::all();
-    $products = Product::orderBy('created_at', 'DESC')->paginate(12);
-    return view('customer.products', compact('products', 'categories'));
-})->name('products');
+Route::get('/products', fn() => view('customer.products', ['products' => Product::latest()->paginate(12), 'categories' => Category::all()]))->name('products');
 
-Route::get('/product/{product}', function (Product $product) {
-    $categories = Category::all();
-    return view('customer.product-details', compact('product', 'categories'));
-})->name('product.details');
+Route::get('/product/{product}', fn(Product $product) => view('customer.product-details', ['product' => $product, 'categories' => Category::all()]))->name('product.details');
 
-Route::get('/category/{category}', function (Category $category) {
-    $categories = Category::all();
-    $products = Product::where('category_id', $category->id)
-                      ->orderBy('created_at', 'DESC')
-                      ->paginate(12);
-    return view('customer.category-products', compact('products', 'categories', 'category'));
-})->name('category.products');
+Route::get('/category/{category}', fn(Category $category) => view('customer.category-products', ['products' => $category->products()->latest()->paginate(12), 'categories' => Category::all(), 'category' => $category]))->name('category.products');
