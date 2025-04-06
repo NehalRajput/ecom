@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Models\Product;
 use App\Models\Category;
+use App\Http\Controllers\CartController;
 
 // Customer Authentication Routes
 Route::middleware(['guest'])->group(function () {
@@ -22,7 +23,7 @@ Route::middleware(['guest'])->group(function () {
 
 // Customer Protected Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/account/dashboard', [DashboardController::class, 'index'])->name('account.dashboard');
 });
@@ -74,3 +75,8 @@ Route::get('/products', fn() => view('customer.products', ['products' => Product
 Route::get('/product/{product}', fn(Product $product) => view('customer.product-details', ['product' => $product, 'categories' => Category::all()]))->name('product.details');
 
 Route::get('/category/{category}', fn(Category $category) => view('customer.category-products', ['products' => $category->products()->latest()->paginate(12), 'categories' => Category::all(), 'category' => $category]))->name('category.products');
+
+// Cart Routes
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');

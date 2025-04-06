@@ -1,4 +1,4 @@
- <header class="header_section">
+<header class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container">
             <a class="navbar-brand" href="/">
@@ -32,6 +32,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('cart.index') }}" class="nav-link cart-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="cart-count">{{ count(session('cart', [])) }}</span>
+                        </a>
+                    </li>
                     @if(Auth::check())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}">Logout</a>
@@ -48,4 +54,29 @@
             </div>
         </nav>
     </div>
-</header> 
+</header>
+
+@push('styles')
+<style>
+    /* Add these new styles */
+    .cart-icon {
+        position: relative;
+        font-size: 20px;
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #f7444e;
+        color: white;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+</style>
+@endpush

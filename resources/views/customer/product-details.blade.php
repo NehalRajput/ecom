@@ -33,7 +33,7 @@
                         <div class="product_actions">
                             <div class="quantity">
                                 <label>Quantity:</label>
-                                <select class="form-select">
+                                <select class="form-select" id="quantity" name="quantity">
                                     @for($i = 1; $i <= 10; $i++)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
@@ -195,5 +195,34 @@
         }
     }
 </style>
+@endpush
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('.btn_add_to_cart').click(function(e) {
+        e.preventDefault();
+        
+        $.ajax({
+            url: '{{ route('cart.add') }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                product_id: '{{ $product->id }}',
+                quantity: $('#quantity').val()
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Update cart count in header
+                    $('.cart-count').text(response.cart_count);
+                    alert('Product added to cart!');
+                }
+            },
+            error: function(xhr) {
+                alert('Error adding product to cart');
+            }
+        });
+    });
+});
+</script>
 @endpush
 @endsection
