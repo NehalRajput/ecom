@@ -47,6 +47,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!-- In the cart summary section -->
                         <div class="cart_summary">
                             <div class="row">
                                 <div class="col-md-8"></div>
@@ -55,7 +56,7 @@
                                         <span>Total:</span>
                                         <span>${{ number_format($total, 2) }}</span>
                                     </div>
-                                    <button class="btn btn-primary w-100 mt-3">Proceed to Checkout</button>
+                                    <a href="{{ route('checkout') }}" class="btn btn-primary w-100 mt-3">Proceed to Checkout</a>
                                 </div>
                             </div>
                         </div>

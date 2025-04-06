@@ -51,4 +51,20 @@ class CartService
         }
         return true;
     }
+
+    public function isCartEmpty()
+    {
+        $cart = session()->get('cart', []);
+        return empty($cart);
+    }
+
+    public function getCartTotal()
+    {
+        $total = 0;
+        $cart = session()->get('cart', []);
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+        return $total;
+    }
 }

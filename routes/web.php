@@ -76,7 +76,11 @@ Route::get('/product/{product}', fn(Product $product) => view('customer.product-
 
 Route::get('/category/{category}', fn(Category $category) => view('customer.category-products', ['products' => $category->products()->latest()->paginate(12), 'categories' => Category::all(), 'category' => $category]))->name('category.products');
 
-// Cart Routes
+// Cart and Checkout Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/process', [CartController::class, 'processCheckout'])->name('checkout.process');
+});
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
